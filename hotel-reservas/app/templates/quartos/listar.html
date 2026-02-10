@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block titulo %}Quartos{% endblock %}
+
+{% block conteudo %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h2">🚪 Quartos</h1>
+    <a href="{{ url_for('quartos.novo_quarto') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Novo Quarto
+    </a>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="GET" class="form-inline">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Buscar por número, tipo ou status..." name="filtro" value="{{ filtro }}">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+                {% if filtro %}
+                <a href="{{ url_for('quartos.listar_quartos') }}" class="btn btn-secondary">Limpar</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Número</th>
+                    <th>Tipo</th>
+                    <th>Preço/Diária</th>
+                    <th>Status</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for quarto in quartos %}
+                <tr>
+                    <td><strong>{{ quarto.numero }}</strong></td>
+                    <td>{{ quarto.tipo }}</td>
+                    <td>R$ {{ "%.2f"|format(quarto.preco) }}</td>
+                    <td>
+                        {% if quarto.status == 'LIVRE' %}
+                            <span class="badge badge-livre">Livre</span>
+                        {% else %}
+                            <span class="badge badge-ocupado">Ocupado</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ quarto.descricao[:50] or '-' }}</td>
+                    <td>
+                        <a href="{{ url_for('quartos.editar_quarto', id=quarto.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        <form method="POST" action="{{ url_for('quartos.deletar_quarto', id=quarto.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">Deletar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center py-3">Nenhum quarto encontrado</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

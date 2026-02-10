@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block titulo %}Editar Quarto{% endblock %}
+
+{% block conteudo %}
+<h1 class="h2 mb-4">✏️ Editar Quarto {{ quarto.numero }}</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="numero" class="form-label">Número *</label>
+                        <input type="number" class="form-control" id="numero" name="numero" value="{{ quarto.numero }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo *</label>
+                        <select class="form-control" id="tipo" name="tipo" required>
+                            <option value="Solteiro" {% if quarto.tipo == 'Solteiro' %}selected{% endif %}>Solteiro</option>
+                            <option value="Casal" {% if quarto.tipo == 'Casal' %}selected{% endif %}>Casal</option>
+                            <option value="Duplo" {% if quarto.tipo == 'Duplo' %}selected{% endif %}>Duplo</option>
+                            <option value="Suite" {% if quarto.tipo == 'Suite' %}selected{% endif %}>Suite</option>
+                            <option value="Deluxe" {% if quarto.tipo == 'Deluxe' %}selected{% endif %}>Deluxe</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="preco" class="form-label">Preço Diária (R$) *</label>
+                        <input type="number" class="form-control" id="preco" name="preco" step="0.01" value="{{ quarto.preco }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status *</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="LIVRE" {% if quarto.status == 'LIVRE' %}selected{% endif %}>Livre</option>
+                            <option value="OCUPADO" {% if quarto.status == 'OCUPADO' %}selected{% endif %}>Ocupado</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3">{{ quarto.descricao or '' }}</textarea>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="{{ url_for('quartos.listar_quartos') }}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

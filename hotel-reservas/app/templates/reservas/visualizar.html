@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block titulo %}Reserva #{{ reserva.id }}{% endblock %}
+
+{% block conteudo %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h2">Reserva #{{ reserva.id }}</h1>
+    <div>
+        {% if reserva.status == 'ATIVA' %}
+            <form method="POST" action="{{ url_for('reservas.finalizar_reserva', id=reserva.id) }}" style="display:inline;">
+                <button type="submit" class="btn btn-success" onclick="return confirm('Finalizar reserva?')">✓ Finalizar</button>
+            </form>
+            <form method="POST" action="{{ url_for('reservas.cancelar_reserva', id=reserva.id) }}" style="display:inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Cancelar reserva?')">✕ Cancelar</button>
+            </form>
+        {% endif %}
+        <a href="{{ url_for('reservas.listar_reservas') }}" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Hóspede</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Nome:</strong> {{ reserva.hospede.nome }}</p>
+                <p><strong>Telefone:</strong> {{ reserva.hospede.telefone or '-' }}</p>
+                <p><strong>Email:</strong> {{ reserva.hospede.email or '-' }}</p>
+                <a href="{{ url_for('hospedes.visualizar_hospede', id=reserva.hospede.id) }}" class="btn btn-sm btn-info w-100 mt-2">Ver Perfil</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Quarto</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Número:</strong> {{ reserva.quarto.numero }}</p>
+                <p><strong>Tipo:</strong> {{ reserva.quarto.tipo }}</p>
+                <p><strong>Preço/Diária:</strong> R$ {{ "%.2f"|format(reserva.quarto.preco) }}</p>
+                <p><strong>Status:</strong> 
+                    {% if reserva.quarto.status == 'LIVRE' %}
+                        <span class="badge badge-livre">Livre</span>
+                    {% else %}
+                        <span class="badge badge-ocupado">Ocupado</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Detalhes da Reserva</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>ID:</strong> #{{ reserva.id }}</p>
+                <p><strong>Entrada:</strong> {{ reserva.entrada.strftime('%d/%m/%Y') }}</p>
+                <p><strong>Saída:</strong> {{ reserva.saida.strftime('%d/%m/%Y') }}</p>
+                <p><strong>Dias:</strong> {{ reserva.get_dias() }}</p>
+                <p><strong>Status:</strong> 
+                    {% if reserva.status == 'ATIVA' %}
+                        <span class="badge badge-ativa">Ativa</span>
+                    {% elif reserva.status == 'CANCELADA' %}
+                        <span class="badge badge-cancelada">Cancelada</span>
+                    {% else %}
+                        <span class="badge badge-finalizada">Finalizada</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Resumo Financeiro</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <td><strong>Preço da Diária:</strong></td>
+                        <td class="text-end">R$ {{ "%.2f"|format(reserva.quarto.preco) }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Número de Dias:</strong></td>
+                        <td class="text-end">{{ reserva.get_dias() }}</td>
+                    </tr>
+                    <tr style="border-top: 2px solid #dee2e6;">
+                        <td><strong>Total:</strong></td>
+                        <td class="text-end"><h4>R$ {{ "%.2f"|format(reserva.total) }}</h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

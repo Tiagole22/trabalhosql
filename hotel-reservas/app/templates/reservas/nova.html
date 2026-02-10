@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block titulo %}Nova Reserva{% endblock %}
+
+{% block conteudo %}
+<h1 class="h2 mb-4">➕ Nova Reserva</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" id="formReserva">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_hospede" class="form-label">Hóspede *</label>
+                                <select class="form-control" id="id_hospede" name="id_hospede" required>
+                                    <option value="">Selecione um hóspede</option>
+                                    {% for hospede in hospedes %}
+                                    <option value="{{ hospede.id }}">{{ hospede.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_quarto" class="form-label">Quarto *</label>
+                                <select class="form-control" id="id_quarto" name="id_quarto" required>
+                                    <option value="">Selecione um quarto</option>
+                                    {% for quarto in quartos %}
+                                    <option value="{{ quarto.id }}" data-preco="{{ quarto.preco }}">
+                                        Q {{ quarto.numero }} - {{ quarto.tipo }} (R$ {{ "%.2f"|format(quarto.preco) }}/dia)
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="entrada" class="form-label">Data de Entrada *</label>
+                                <input type="date" class="form-control" id="entrada" name="entrada" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="saida" class="form-label">Data de Saída *</label>
+                                <input type="date" class="form-control" id="saida" name="saida" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info" id="infoReserva" style="display:none;">
+                        <strong>Resumo:</strong>
+                        <p>Dias: <span id="diasReserva">0</span></p>
+                        <p>Preço diária: R$ <span id="precoQuarto">0.00</span></p>
+                        <p><strong>Total: R$ <span id="totalReserva">0.00</span></strong></p>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Criar Reserva</button>
+                        <a href="{{ url_for('reservas.listar_reservas') }}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function calcularTotal() {
+    const entrada = new Date(document.getElementById('entrada').value);
+    const saida = new Date(document.getElementById('saida').value);
+    const selectQuarto = document.getElementById('id_quarto');
+    
+    if (entrada && saida && selectQuarto.value) {
+        const dias = (saida - entrada) / (1000 * 60 * 60 * 24);
+        const preco = parseFloat(selectQuarto.options[selectQuarto.selectedIndex].dataset.preco);
+        
+        if (dias > 0) {
+            const total = dias * preco;
+            document.getElementById('diasReserva').textContent = dias;
+            document.getElementById('precoQuarto').textContent = preco.toFixed(2);
+            document.getElementById('totalReserva').textContent = total.toFixed(2);
+            document.getElementById('infoReserva').style.display = 'block';
+        } else {
+            document.getElementById('infoReserva').style.display = 'none';
+        }
+    }
+}
+
+document.getElementById('entrada').addEventListener('change', calcularTotal);
+document.getElementById('saida').addEventListener('change', calcularTotal);
+document.getElementById('id_quarto').addEventListener('change', calcularTotal);
+</script>
+{% endblock %}

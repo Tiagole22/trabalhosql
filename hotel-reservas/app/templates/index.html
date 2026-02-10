@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block titulo %}Dashboard - Sistema de Reservas{% endblock %}
+
+{% block conteudo %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h2">📊 Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Hóspedes</h5>
+                <h2 class="text-primary">{{ total_hospedes }}</h2>
+                <a href="/hospedes" class="btn btn-sm btn-primary mt-2">Ver</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Quartos</h5>
+                <h2 class="text-success">{{ total_quartos }}</h2>
+                <a href="/quartos" class="btn btn-sm btn-primary mt-2">Ver</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Quartos Livres</h5>
+                <h2 class="text-info">{{ quartos_livres }}</h2>
+                <a href="/quartos" class="btn btn-sm btn-primary mt-2">Ver</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Reservas</h5>
+                <h2 class="text-warning">{{ total_reservas }}</h2>
+                <a href="/reservas" class="btn btn-sm btn-primary mt-2">Ver</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Ações Rápidas</h5>
+            </div>
+            <div class="card-body">
+                <a href="/hospedes/novo" class="btn btn-outline-primary w-100 mb-2">➕ Novo Hóspede</a>
+                <a href="/quartos/novo" class="btn btn-outline-primary w-100 mb-2">➕ Novo Quarto</a>
+                <a href="/reservas/nova" class="btn btn-outline-primary w-100 mb-2">➕ Nova Reserva</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Informações do Sistema</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Taxa de Ocupação:</strong> {{ ((total_quartos - quartos_livres) / total_quartos * 100) | round(1) if total_quartos > 0 else 0 }}%</p>
+                <p><strong>Quartos Ocupados:</strong> {{ total_quartos - quartos_livres }}</p>
+                <p><strong>Reservas Ativas:</strong> Versão 1.0</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+📄 DOCUMENTAÇÃO DO PROJETO - COMO USAR
+======================================
+
+✅ ARQUIVO DE DOCUMENTAÇÃO CRIADO COM SUCESSO!
+
+📍 LOCAL DO ARQUIVO:
+   /home/tiago/Documentos/SQL/hotel-reservas/DOCUMENTACAO.html
+
+🎯 COMO CONVERTER PARA PDF:
+
+OPÇÃO 1: Usando o Navegador (Recomendado ⭐)
+   1. Abra o arquivo em seu navegador:
+      - Clique em: DOCUMENTACAO.html
+      - Ou use: File > Open > DOCUMENTACAO.html
+   
+   2. Pressione: Ctrl+P (Windows/Linux) ou Cmd+P (Mac)
+   
+   3. Na janela de impressão:
+      - Selecione: "Salvar como PDF"
+      - Escolha o local desejado
+      - Clique em "Salvar"
+
+OPÇÃO 2: Linha de Comando (Linux/Mac)
+   $ wkhtmltopdf DOCUMENTACAO.html DOCUMENTACAO.pdf
+
+OPÇÃO 3: Usando Python
+   $ pip install reportlab
+   $ python3 -c "from reportlab.lib.pagesizes import letter; ..."
+
+📋 CONTEÚDO DA DOCUMENTAÇÃO:
+
+A documentação inclui:
+   ✓ Introdução ao projeto
+   ✓ Objetivo e funcionalidades
+   ✓ Tecnologias utilizadas
+   ✓ Arquitetura do sistema
+   ✓ Modelagem de banco de dados
+   ✓ API REST e endpoints
+   ✓ Frontend e interface
+   ✓ Guia de instalação passo a passo
+   ✓ Como usar o sistema
+   ✓ Possibilidades de expansão
+
+📊 DADOS TÉCNICOS:
+   - Tamanho: ~26KB
+   - Formato: HTML5
+   - Compatível com: Todos os navegadores modernos
+   - Páginas (ao imprimir): ~10-15 páginas
+
+🎓 PRONTO PARA APRESENTAR:
+   O arquivo está completo e formatado profissionalmente para
+   apresentação ao professor. Inclui:
+   
+   • Estrutura visual clara e organizada
+   • Índice navegável
+   • Cores e estilos profissionais
+   • Tabelas de dados
+   • Diagramas da arquitetura
+   • Exemplos de código
+   • Instruções detalhadas
+
+✨ DICAS PARA A APRESENTAÇÃO:
+
+1. Imprima em preto e branco para economizar toner
+2. Use papel de boa qualidade (A4 80g mínimo)
+3. Considere a encadernação se necessário
+4. Mantenha uma cópia digital também
+5. Leve o projeto rodando no notebook para demonstração
+
+🚀 PRÓXIMOS PASSOS:
+
+1. Gere o PDF usando uma das opções acima
+2. Verifique a qualidade da impressão
+3. Prepare sua apresentação oral
+4. Deixe o servidor rodando durante a apresentação:
+   $ cd /home/tiago/Documentos/SQL/hotel-reservas
+   $ python3 server.py
+
+5. Acesse em: http://127.0.0.1:5000
+
+💡 BÔNUS: Você também pode:
+   - Criar um README em PDF separado
+   - Adicionar screenshots da aplicação
+   - Fazer um vídeo demonstrativo
+   - Preparar slides complementares
+
+---
+Documentação gerada em: 5 de fevereiro de 2026
+Sistema de Reservas de Hotel v1.0

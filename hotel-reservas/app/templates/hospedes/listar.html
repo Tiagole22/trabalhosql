@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block titulo %}Hóspedes{% endblock %}
+
+{% block conteudo %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h2">👥 Hóspedes</h1>
+    <a href="{{ url_for('hospedes.novo_hospede') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Novo Hóspede
+    </a>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>Reservas</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hospede in hospedes.items %}
+                <tr>
+                    <td>{{ hospede.id }}</td>
+                    <td>{{ hospede.nome }}</td>
+                    <td>{{ hospede.telefone or '-' }}</td>
+                    <td>{{ hospede.email or '-' }}</td>
+                    <td><span class="badge bg-secondary">{{ hospede.reservas | length }}</span></td>
+                    <td>
+                        <a href="{{ url_for('hospedes.visualizar_hospede', id=hospede.id) }}" class="btn btn-sm btn-info">Ver</a>
+                        <a href="{{ url_for('hospedes.editar_hospede', id=hospede.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        <form method="POST" action="{{ url_for('hospedes.deletar_hospede', id=hospede.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">Deletar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center py-3">Nenhum hóspede cadastrado</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Paginação -->
+{% if hospedes.pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if hospedes.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('hospedes.listar_hospedes', pagina=hospedes.prev_num) }}">Anterior</a>
+        </li>
+        {% endif %}
+
+        {% for page_num in hospedes.iter_pages() %}
+            {% if page_num %}
+                {% if page_num == hospedes.page %}
+                <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('hospedes.listar_hospedes', pagina=page_num) }}">{{ page_num }}</a></li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if hospedes.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('hospedes.listar_hospedes', pagina=hospedes.next_num) }}">Próxima</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}

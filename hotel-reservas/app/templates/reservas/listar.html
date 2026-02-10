@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block titulo %}Reservas{% endblock %}
+
+{% block conteudo %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h2">📅 Reservas</h1>
+    <a href="{{ url_for('reservas.nova_reserva') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Nova Reserva
+    </a>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="GET" class="form-inline">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Buscar por hóspede, quarto ou status..." name="filtro" value="{{ filtro }}">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+                {% if filtro %}
+                <a href="{{ url_for('reservas.listar_reservas') }}" class="btn btn-secondary">Limpar</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Hóspede</th>
+                    <th>Quarto</th>
+                    <th>Entrada</th>
+                    <th>Saída</th>
+                    <th>Dias</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                <tr>
+                    <td>#{{ reserva.id }}</td>
+                    <td><a href="{{ url_for('hospedes.visualizar_hospede', id=reserva.hospede.id) }}">{{ reserva.hospede.nome }}</a></td>
+                    <td>{{ reserva.quarto.numero }}</td>
+                    <td>{{ reserva.entrada.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ reserva.saida.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ reserva.get_dias() }}</td>
+                    <td><strong>R$ {{ "%.2f"|format(reserva.total) }}</strong></td>
+                    <td>
+                        {% if reserva.status == 'ATIVA' %}
+                            <span class="badge badge-ativa">Ativa</span>
+                        {% elif reserva.status == 'CANCELADA' %}
+                            <span class="badge badge-cancelada">Cancelada</span>
+                        {% else %}
+                            <span class="badge badge-finalizada">Finalizada</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('reservas.visualizar_reserva', id=reserva.id) }}" class="btn btn-sm btn-info">Ver</a>
+                        {% if reserva.status == 'ATIVA' %}
+                            <form method="POST" action="{{ url_for('reservas.cancelar_reserva', id=reserva.id) }}" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Cancelar reserva?')">Cancelar</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9" class="text-center py-3">Nenhuma reserva encontrada</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

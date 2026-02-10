@@ -1,0 +1,30 @@
+# Ambiente virtual
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ambiente
+.env
+*.db
+*.sqlite3
+
+# Flask
+instance/
+.webassets-cache
+
+# Logs
+*.log
+
+# Banco de dados
+*.sql
+
+# Arquivos do SO
+.DS_Store
+Thumbs.db
