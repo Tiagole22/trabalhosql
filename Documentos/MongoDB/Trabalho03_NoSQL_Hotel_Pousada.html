@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trabalho 03 - NoSQL</title>
+<style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 16px;line-height:1.5;color:#111} h1,h2{margin-top:28px} pre{background:#f5f5f5;padding:12px;overflow:auto;border-radius:6px} code{font-family:Consolas,monospace} hr{border:0;border-top:1px solid #ccc;margin:24px 0}</style></head><body>
+<p>INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA  </p>
+<p>CAMPUS PICOS  </p>
+<p>Banco de Dados II – 2025.2  </p>
+<p>Trabalho 03: NoSQL  </p>
+<p>Prof. João Paulo  </p>
+<p>Data: 16/02/2026  </p>
+<p></p>
+<h1>Tema: Sistema de Reservas de Hotel/Pousada</h1>
+<p></p>
+<p>Equipe: [Nome 1], [Nome 2], [Nome 3]  </p>
+<p>Nome da base de dados: reservas_hotel  </p>
+<p>Quantidade de coleções: 3  </p>
+<p>Coleções: clientes, quartos, reservas  </p>
+<p></p>
+<hr>
+<p></p>
+<h2>1) Documentos da coleção `clientes` (Inserção)</h2>
+<p></p>
+<pre><code>
+db.clientes.insertMany([
+  {
+    _id: ObjectId(&quot;65f100000000000000000001&quot;),
+    nome: &quot;Mariana Souza&quot;,
+    cpf: &quot;123.456.789-00&quot;,
+    telefone: &quot;(89) 99999-1111&quot;,
+    email: &quot;mariana.souza@email.com&quot;,
+    endereco: {
+      rua: &quot;Rua das Palmeiras&quot;,
+      numero: 120,
+      cidade: &quot;Picos&quot;,
+      uf: &quot;PI&quot;
+    },
+    data_cadastro: ISODate(&quot;2026-02-10T09:00:00Z&quot;)
+  },
+  {
+    _id: ObjectId(&quot;65f100000000000000000002&quot;),
+    nome: &quot;Carlos Henrique&quot;,
+    cpf: &quot;987.654.321-00&quot;,
+    telefone: &quot;(89) 99999-2222&quot;,
+    email: &quot;carlos.henrique@email.com&quot;,
+    endereco: {
+      rua: &quot;Av. Central&quot;,
+      numero: 45,
+      cidade: &quot;Picos&quot;,
+      uf: &quot;PI&quot;
+    },
+    data_cadastro: ISODate(&quot;2026-02-10T09:30:00Z&quot;)
+  },
+  {
+    _id: ObjectId(&quot;65f100000000000000000003&quot;),
+    nome: &quot;Ana Paula Lima&quot;,
+    cpf: &quot;456.123.789-55&quot;,
+    telefone: &quot;(89) 99999-3333&quot;,
+    email: &quot;ana.paula@email.com&quot;,
+    endereco: {
+      rua: &quot;Travessa São José&quot;,
+      numero: 87,
+      cidade: &quot;Picos&quot;,
+      uf: &quot;PI&quot;
+    },
+    data_cadastro: ISODate(&quot;2026-02-11T08:20:00Z&quot;)
+  },
+  {
+    _id: ObjectId(&quot;65f100000000000000000004&quot;),
+    nome: &quot;João Pedro Rocha&quot;,
+    cpf: &quot;321.654.987-77&quot;,
+    telefone: &quot;(89) 99999-4444&quot;,
+    email: &quot;joaopedro@email.com&quot;,
+    endereco: {
+      rua: &quot;Rua Coelho Rodrigues&quot;,
+      numero: 300,
+      cidade: &quot;Picos&quot;,
+      uf: &quot;PI&quot;
+    },
+    data_cadastro: ISODate(&quot;2026-02-11T10:15:00Z&quot;)
+  },
+  {
+    _id: ObjectId(&quot;65f100000000000000000005&quot;),
+    nome: &quot;Fernanda Alves&quot;,
+    cpf: &quot;741.852.963-11&quot;,
+    telefone: &quot;(89) 99999-5555&quot;,
+    email: &quot;fernanda.alves@email.com&quot;,
+    endereco: {
+      rua: &quot;Rua Projetada A&quot;,
+      numero: 19,
+      cidade: &quot;Picos&quot;,
+      uf: &quot;PI&quot;
+    },
+    data_cadastro: ISODate(&quot;2026-02-12T11:45:00Z&quot;)
+  }
+])
+</code></pre>
+<p></p>
+<hr>
+<p></p>
+<h2>2) Documentos da coleção `quartos` (Inserção)</h2>
+<p></p>
+<pre><code>
+db.quartos.insertMany([
+  {
+    _id: ObjectId(&quot;65f200000000000000000001&quot;),
+    numero: &quot;101&quot;,
+    tipo: &quot;Standard&quot;,
+    capacidade: 2,
+    diaria: 140.00,
+    status: &quot;disponivel&quot;,
+    comodidades: [&quot;Ar-condicionado&quot;, &quot;Wi-Fi&quot;, &quot;TV&quot;]
+  },
+  {
+    _id: ObjectId(&quot;65f200000000000000000002&quot;),
+    numero: &quot;102&quot;,
+    tipo: &quot;Standard&quot;,
+    capacidade: 3,
+    diaria: 160.00,
+    status: &quot;disponivel&quot;,
+    comodidades: [&quot;Ventilador&quot;, &quot;Wi-Fi&quot;, &quot;TV&quot;]
+  },
+  {
+    _id: ObjectId(&quot;65f200000000000000000003&quot;),
+    numero: &quot;201&quot;,
+    tipo: &quot;Luxo&quot;,
+    capacidade: 2,
+    diaria: 250.00,
+    status: &quot;ocupado&quot;,
+    comodidades: [&quot;Ar-condicionado&quot;, &quot;Frigobar&quot;, &quot;Wi-Fi&quot;, &quot;TV Smart&quot;]
+  },
+  {
+    _id: ObjectId(&quot;65f200000000000000000004&quot;),
+    numero: &quot;202&quot;,
+    tipo: &quot;Master&quot;,
+    capacidade: 4,
+    diaria: 320.00,
+    status: &quot;disponivel&quot;,
+    comodidades: [&quot;Ar-condicionado&quot;, &quot;Frigobar&quot;, &quot;Wi-Fi&quot;, &quot;TV Smart&quot;, &quot;Banheira&quot;]
+  },
+  {
+    _id: ObjectId(&quot;65f200000000000000000005&quot;),
+    numero: &quot;301&quot;,
+    tipo: &quot;Econômico&quot;,
+    capacidade: 2,
+    diaria: 110.00,
+    status: &quot;manutencao&quot;,
+    comodidades: [&quot;Ventilador&quot;, &quot;Wi-Fi&quot;]
+  }
+])
+</code></pre>
+<p></p>
+<hr>
+<p></p>
+<h2>3) Documentos da coleção `reservas` (Inserção)</h2>
+<p></p>
+<pre><code>
+db.reservas.insertMany([
+  {
+    _id: ObjectId(&quot;65f300000000000000000001&quot;),
+    cliente_id: ObjectId(&quot;65f100000000000000000001&quot;),
+    quarto_id: ObjectId(&quot;65f200000000000000000001&quot;),
+    data_checkin: ISODate(&quot;2026-02-20T14:00:00Z&quot;),
+    data_checkout: ISODate(&quot;2026-02-22T12:00:00Z&quot;),
+    qtd_hospedes: 2,
+    valor_total: 280.00,
+    status: &quot;confirmada&quot;,
+    forma_pagamento: &quot;pix&quot;
+  },
+  {
+    _id: ObjectId(&quot;65f300000000000000000002&quot;),
+    cliente_id: ObjectId(&quot;65f100000000000000000002&quot;),
+    quarto_id: ObjectId(&quot;65f200000000000000000003&quot;),
+    data_checkin: ISODate(&quot;2026-02-18T14:00:00Z&quot;),
+    data_checkout: ISODate(&quot;2026-02-21T12:00:00Z&quot;),
+    qtd_hospedes: 2,
+    valor_total: 750.00,
+    status: &quot;hospedado&quot;,
+    forma_pagamento: &quot;cartao_credito&quot;
+  },
+  {
+    _id: ObjectId(&quot;65f300000000000000000003&quot;),
+    cliente_id: ObjectId(&quot;65f100000000000000000003&quot;),
+    quarto_id: ObjectId(&quot;65f200000000000000000002&quot;),
+    data_checkin: ISODate(&quot;2026-02-25T14:00:00Z&quot;),
+    data_checkout: ISODate(&quot;2026-02-27T12:00:00Z&quot;),
+    qtd_hospedes: 3,
+    valor_total: 320.00,
+    status: &quot;confirmada&quot;,
+    forma_pagamento: &quot;dinheiro&quot;
+  },
+  {
+    _id: ObjectId(&quot;65f300000000000000000004&quot;),
+    cliente_id: ObjectId(&quot;65f100000000000000000004&quot;),
+    quarto_id: ObjectId(&quot;65f200000000000000000004&quot;),
+    data_checkin: ISODate(&quot;2026-02-15T14:00:00Z&quot;),
+    data_checkout: ISODate(&quot;2026-02-16T12:00:00Z&quot;),
+    qtd_hospedes: 4,
+    valor_total: 320.00,
+    status: &quot;finalizada&quot;,
+    forma_pagamento: &quot;pix&quot;
+  },
+  {
+    _id: ObjectId(&quot;65f300000000000000000005&quot;),
+    cliente_id: ObjectId(&quot;65f100000000000000000005&quot;),
+    quarto_id: ObjectId(&quot;65f200000000000000000005&quot;),
+    data_checkin: ISODate(&quot;2026-02-28T14:00:00Z&quot;),
+    data_checkout: ISODate(&quot;2026-03-01T12:00:00Z&quot;),
+    qtd_hospedes: 2,
+    valor_total: 110.00,
+    status: &quot;pendente&quot;,
+    forma_pagamento: &quot;cartao_debito&quot;
+  }
+])
+</code></pre>
+<p></p>
+<hr>
+<p></p>
+<h2>4) Comandos `mongosh` em ordem (da criação da base ao CRUD)</h2>
+<p></p>
+<pre><code>
+// 1. Criar/selecionar a base de dados
+use reservas_hotel
+
+// 2. (Opcional) Conferir o banco atual
+db
+
+// 3. Inserções (CREATE)
+// Coleção clientes
+db.clientes.insertMany([
+  {
+    _id: ObjectId(&quot;65f100000000000000000001&quot;),
+    nome: &quot;Mariana Souza&quot;,
+    cpf: &quot;123.456.789-00&quot;,
+    telefone: &quot;(89) 99999-1111&quot;,
+    email: &quot;mariana.souza@email.com&quot;,
+    endereco: { rua: &quot;Rua das Palmeiras&quot;, numero: 120, cidade: &quot;Picos&quot;, uf: &quot;PI&quot; },
+    data_cadastro: ISODate(&quot;2026-02-10T09:00:00Z&quot;)
+  },
+  {
+    _id: ObjectId(&quot;65f100000000000000000002&quot;),
+    nome: &quot;Carlos Henrique&quot;,
+    cpf: &quot;987.654.321-00&quot;,
+    telefone: &quot;(89) 99999-2222&quot;,
+    email: &quot;carlos.henrique@email.com&quot;,
+    endereco: { rua: &quot;Av. Central&quot;, numero: 45, cidade: &quot;Picos&quot;, uf: &quot;PI&quot; },
+    data_cadastro: ISODate(&quot;2026-02-10T09:30:00Z&quot;)
+  },
+  {
+    _id: ObjectId(&quot;65f100000000000000000003&quot;),
+    nome: &quot;Ana Paula Lima&quot;,
+    cpf: &quot;456.123.789-55&quot;,
+    telefone: &quot;(89) 99999-3333&quot;,
+    email: &quot;ana.paula@email.com&quot;,
+    endereco: { rua: &quot;Travessa São José&quot;, numero: 87, cidade: &quot;Picos&quot;, uf: &quot;PI&quot; },
+    data_cadastro: ISODate(&quot;2026-02-11T08:20:00Z&quot;)
+  },
+  {
+    _id: ObjectId(&quot;65f100000000000000000004&quot;),
+    nome: &quot;João Pedro Rocha&quot;,
+    cpf: &quot;321.654.987-77&quot;,
+    telefone: &quot;(89) 99999-4444&quot;,
+    email: &quot;joaopedro@email.com&quot;,
+    endereco: { rua: &quot;Rua Coelho Rodrigues&quot;, numero: 300, cidade: &quot;Picos&quot;, uf: &quot;PI&quot; },
+    data_cadastro: ISODate(&quot;2026-02-11T10:15:00Z&quot;)
+  },
+  {
+    _id: ObjectId(&quot;65f100000000000000000005&quot;),
+    nome: &quot;Fernanda Alves&quot;,
+    cpf: &quot;741.852.963-11&quot;,
+    telefone: &quot;(89) 99999-5555&quot;,
+    email: &quot;fernanda.alves@email.com&quot;,
+    endereco: { rua: &quot;Rua Projetada A&quot;, numero: 19, cidade: &quot;Picos&quot;, uf: &quot;PI&quot; },
+    data_cadastro: ISODate(&quot;2026-02-12T11:45:00Z&quot;)
+  }
+])
+
+// Coleção quartos
+db.quartos.insertMany([
+  { _id: ObjectId(&quot;65f200000000000000000001&quot;), numero: &quot;101&quot;, tipo: &quot;Standard&quot;, capacidade: 2, diaria: 140.00, status: &quot;disponivel&quot;, comodidades: [&quot;Ar-condicionado&quot;, &quot;Wi-Fi&quot;, &quot;TV&quot;] },
+  { _id: ObjectId(&quot;65f200000000000000000002&quot;), numero: &quot;102&quot;, tipo: &quot;Standard&quot;, capacidade: 3, diaria: 160.00, status: &quot;disponivel&quot;, comodidades: [&quot;Ventilador&quot;, &quot;Wi-Fi&quot;, &quot;TV&quot;] },
+  { _id: ObjectId(&quot;65f200000000000000000003&quot;), numero: &quot;201&quot;, tipo: &quot;Luxo&quot;, capacidade: 2, diaria: 250.00, status: &quot;ocupado&quot;, comodidades: [&quot;Ar-condicionado&quot;, &quot;Frigobar&quot;, &quot;Wi-Fi&quot;, &quot;TV Smart&quot;] },
+  { _id: ObjectId(&quot;65f200000000000000000004&quot;), numero: &quot;202&quot;, tipo: &quot;Master&quot;, capacidade: 4, diaria: 320.00, status: &quot;disponivel&quot;, comodidades: [&quot;Ar-condicionado&quot;, &quot;Frigobar&quot;, &quot;Wi-Fi&quot;, &quot;TV Smart&quot;, &quot;Banheira&quot;] },
+  { _id: ObjectId(&quot;65f200000000000000000005&quot;), numero: &quot;301&quot;, tipo: &quot;Econômico&quot;, capacidade: 2, diaria: 110.00, status: &quot;manutencao&quot;, comodidades: [&quot;Ventilador&quot;, &quot;Wi-Fi&quot;] }
+])
+
+// Coleção reservas
+db.reservas.insertMany([
+  { _id: ObjectId(&quot;65f300000000000000000001&quot;), cliente_id: ObjectId(&quot;65f100000000000000000001&quot;), quarto_id: ObjectId(&quot;65f200000000000000000001&quot;), data_checkin: ISODate(&quot;2026-02-20T14:00:00Z&quot;), data_checkout: ISODate(&quot;2026-02-22T12:00:00Z&quot;), qtd_hospedes: 2, valor_total: 280.00, status: &quot;confirmada&quot;, forma_pagamento: &quot;pix&quot; },
+  { _id: ObjectId(&quot;65f300000000000000000002&quot;), cliente_id: ObjectId(&quot;65f100000000000000000002&quot;), quarto_id: ObjectId(&quot;65f200000000000000000003&quot;), data_checkin: ISODate(&quot;2026-02-18T14:00:00Z&quot;), data_checkout: ISODate(&quot;2026-02-21T12:00:00Z&quot;), qtd_hospedes: 2, valor_total: 750.00, status: &quot;hospedado&quot;, forma_pagamento: &quot;cartao_credito&quot; },
+  { _id: ObjectId(&quot;65f300000000000000000003&quot;), cliente_id: ObjectId(&quot;65f100000000000000000003&quot;), quarto_id: ObjectId(&quot;65f200000000000000000002&quot;), data_checkin: ISODate(&quot;2026-02-25T14:00:00Z&quot;), data_checkout: ISODate(&quot;2026-02-27T12:00:00Z&quot;), qtd_hospedes: 3, valor_total: 320.00, status: &quot;confirmada&quot;, forma_pagamento: &quot;dinheiro&quot; },
+  { _id: ObjectId(&quot;65f300000000000000000004&quot;), cliente_id: ObjectId(&quot;65f100000000000000000004&quot;), quarto_id: ObjectId(&quot;65f200000000000000000004&quot;), data_checkin: ISODate(&quot;2026-02-15T14:00:00Z&quot;), data_checkout: ISODate(&quot;2026-02-16T12:00:00Z&quot;), qtd_hospedes: 4, valor_total: 320.00, status: &quot;finalizada&quot;, forma_pagamento: &quot;pix&quot; },
+  { _id: ObjectId(&quot;65f300000000000000000005&quot;), cliente_id: ObjectId(&quot;65f100000000000000000005&quot;), quarto_id: ObjectId(&quot;65f200000000000000000005&quot;), data_checkin: ISODate(&quot;2026-02-28T14:00:00Z&quot;), data_checkout: ISODate(&quot;2026-03-01T12:00:00Z&quot;), qtd_hospedes: 2, valor_total: 110.00, status: &quot;pendente&quot;, forma_pagamento: &quot;cartao_debito&quot; }
+])
+
+// 4. Leituras (READ)
+db.clientes.find()
+db.quartos.find({ status: &quot;disponivel&quot; })
+db.reservas.find({ valor_total: { $gt: 300 } })
+db.reservas.find({ status: { $in: [&quot;confirmada&quot;, &quot;hospedado&quot;] } })
+
+// 5. Atualizações (UPDATE)
+db.clientes.updateOne(
+  { nome: &quot;Mariana Souza&quot; },
+  { $set: { &quot;endereco.bairro&quot;: &quot;Centro&quot; } }
+)
+
+db.quartos.updateOne(
+  { numero: &quot;301&quot; },
+  { $set: { status: &quot;disponivel&quot; } }
+)
+
+db.reservas.updateOne(
+  { _id: ObjectId(&quot;65f300000000000000000005&quot;) },
+  { $set: { status: &quot;confirmada&quot;, forma_pagamento: &quot;pix&quot; } }
+)
+
+// 6. Remoções (DELETE)
+db.reservas.deleteOne({ _id: ObjectId(&quot;65f300000000000000000004&quot;) })
+db.clientes.deleteOne({ cpf: &quot;741.852.963-11&quot; })
+</code></pre>
+<p></p>
+<hr>
+<p></p>
+<h2>5) Resultado esperado</h2>
+<p></p>
+<p>Após executar os comandos acima, a base reservas_hotel estará criada com as coleções e os dados, demonstrando o CRUD básico no contexto de hotel/pousada.</p>
+<p></p>
+<hr>
+<p></p>
+<h2>6) Observação para entrega</h2>
+<p></p>
+<p>Substituir os nomes da equipe e exportar este material para PDF para envio até 23/02/2026 ao e-mail: joao.nascimento@ifpi.edu.br.</p>
+</body></html>
