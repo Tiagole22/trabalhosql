@@ -64,3 +64,22 @@ No frontend, configure:
 
 Os dados estão em memória (listas Python). Se a aplicação reiniciar, os dados serão perdidos.
 Para produção real, o próximo passo é usar PostgreSQL.
+
+## 6) Se o Railpack falhar na compilação
+
+Se aparecer erro de compilação do Railpack, use o `Dockerfile` deste projeto:
+
+1. No serviço da Railway, vá em **Settings/Configurações**.
+2. Selecione **Builder: Dockerfile**.
+3. Faça redeploy.
+
+Como o `Dockerfile` usa `APP_MODULE`, defina essa variável por serviço:
+
+- Serviço `usuarios`: `APP_MODULE=ms_usuarios:app`
+- Serviço `pedidos`: `APP_MODULE=ms_pedidos:app`
+- Serviço `frontend`: `APP_MODULE=frontend:app`
+
+No frontend, também configure:
+
+- `URL_USUARIOS=https://<url-do-servico-usuarios>`
+- `URL_PEDIDOS=https://<url-do-servico-pedidos>`
