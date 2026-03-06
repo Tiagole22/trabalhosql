@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-custom p-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Novo Pedido</h2>
+                <p class="text-muted">Selecione um usuario cadastrado e o tipo de entrega.</p>
+            </div>
+
+            <form action="/novo" method="POST">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Cliente Cadastrado</label>
+                        <select name="cliente" class="form-select" required>
+                            <option value="" disabled selected>Selecione um cliente...</option>
+                            {% for u in usuarios %}
+                            <option value="{{ u.nome }}">{{ u.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Produto / Servico</label>
+                        <input type="text" name="produto" class="form-control" required placeholder="Ex: Notebook">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-bold">Escolha o Tipo de Pedido</label>
+                        <div class="d-flex gap-3 mt-2">
+                            <input type="radio" class="btn-check" name="tipo" id="fisico" value="fisico" checked>
+                            <label class="btn btn-outline-info flex-fill p-3" for="fisico">
+                                <i class="bi bi-box-seam d-block fs-3 mb-2"></i> Fisico
+                            </label>
+
+                            <input type="radio" class="btn-check" name="tipo" id="digital" value="digital">
+                            <label class="btn btn-outline-success flex-fill p-3" for="digital">
+                                <i class="bi bi-cloud-download d-block fs-3 mb-2"></i> Digital
+                            </label>
+
+                            <input type="radio" class="btn-check" name="tipo" id="servico" value="servico">
+                            <label class="btn btn-outline-warning flex-fill p-3" for="servico">
+                                <i class="bi bi-calendar-check d-block fs-3 mb-2"></i> Servico
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid mt-5">
+                    <button type="submit" class="btn btn-gradient btn-lg">Finalizar Pedido</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
